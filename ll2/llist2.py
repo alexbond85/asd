@@ -66,7 +66,6 @@ class LinkedList2:
             node = node.next
         return False
 
-
     def delete(self, val, all=False):
         if not all:
             self._delete_first(val)
@@ -79,6 +78,8 @@ class LinkedList2:
         self.head = h.next
         h.next = None
         h.prev = None
+        if self.head is not None:
+            self.head.prev = None
 
     def clean(self):
         if self.head == self.tail:

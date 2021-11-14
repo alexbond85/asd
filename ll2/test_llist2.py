@@ -157,6 +157,10 @@ def test_delete_from_head():
     assert ll.tail == n2
     assert n2.next is None
     assert ll.len() == 1
+    assert n1.next is None
+    assert n1.prev is None
+    assert n2.next is None
+    assert n2.prev is None
 
 
 def test_delete_from_tail():
@@ -170,6 +174,9 @@ def test_delete_from_tail():
     assert ll.tail == n1
     assert n1.next is None
     assert ll.len() == 1
+    assert n1.prev is None
+    assert n2.prev is None
+    assert n2.next is None
 
 
 def test_delete_from_head_tail():
