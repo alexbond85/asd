@@ -7,7 +7,7 @@ class Queue:
 
     def dequeue(self):
         if self.size() == 0:
-            return 0
+            return None
         return self.arr.pop(0)
 
     def size(self):
