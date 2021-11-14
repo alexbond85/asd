@@ -10,7 +10,7 @@ def test_insert_into_empty_list():
     assert ll.tail == ll.head
 
 
-def test_insert_after_tail():
+def test_insert_last():
     ll = LinkedList()
     n1 = Node(v=1)
     ll.insert(afterNode=None, newNode=n1)
@@ -159,6 +159,8 @@ def test_delete_all_in_between():
     ll.add_in_tail(Node(v=1))
     ll.add_in_tail(Node(v=1))
     ll.delete(1, all=True)
+    assert ll.len() == 2
+    ll.delete(0, all=True)
     assert ll.len() == 2
 
 
