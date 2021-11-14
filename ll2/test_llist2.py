@@ -5,8 +5,8 @@ def test_add_in_head_empty_list():
     ll = LinkedList2()
     n = Node(1)
     ll.add_in_head(n)
-    assert ll.head == n
-    assert ll.tail == n
+    assert ll.head is n
+    assert ll.tail is n
 
 
 def test_len_empty():
@@ -39,15 +39,15 @@ def test_add_in_head_non_empty_list():
     n2 = Node(2)
     ll.add_in_tail(n2)
     ll.add_in_head(n1)
-    assert ll.head == n1
-    assert ll.tail == n2
-    assert n1.next == n2
+    assert ll.head is n1
+    assert ll.tail is n2
+    assert n1.next is n2
     assert n1.prev is None
-    assert n2.prev == n1
+    assert n2.prev is n1
     assert n2.next is None
     n0 = Node(0)
     ll.add_in_head(n0)
-    assert ll.head == n0
+    assert ll.head is n0
     assert ll.len() == 3
 
 
@@ -79,17 +79,17 @@ def test_insert_no_after_node():
     n1 = Node(v=1)
     ll.insert(None, n1)
     assert ll.len() == 1
-    assert ll.head == n1
-    assert ll.tail == n1
+    assert ll.head is n1
+    assert ll.tail is n1
 
     n2 = Node(v=2)
     ll.insert(None, n2)
     assert ll.len() == 2
-    assert ll.head == n1
-    assert ll.tail == n2
+    assert ll.head is n1
+    assert ll.tail is n2
     assert n1.prev is None
-    assert n1.next == n2
-    assert n2.prev == n1
+    assert n1.next is n2
+    assert n2.prev is n1
     assert n2.next is None
 
 
@@ -101,9 +101,9 @@ def test_insert():
     ll.insert(afterNode=n1, newNode=n2)
 
     assert ll.len() == 2
-    assert ll.head == n1
-    assert ll.tail == n2
-    assert n2.prev == n1
+    assert ll.head is n1
+    assert ll.tail is n2
+    assert n2.prev is n1
     assert n2.next is None
     assert n1.next is n2
 
@@ -116,12 +116,12 @@ def test_insert():
 
     ll.insert(afterNode=n1, newNode=n2)
     assert ll.len() == 3
-    assert ll.head == n1
-    assert ll.tail == n3
-    assert n1.next == n2
-    assert n3.prev == n2
-    assert n2.prev == n1
-    assert n2.next == n3
+    assert ll.head is n1
+    assert ll.tail is n3
+    assert n1.next is n2
+    assert n3.prev is n2
+    assert n2.prev is n1
+    assert n2.next is n3
 
 
 def test_find_all():
@@ -153,14 +153,34 @@ def test_delete_from_head():
     ll.add_in_tail(n1)
     ll.add_in_tail(n2)
     ll.delete(val=1, all=False)
-    assert ll.head == n2
-    assert ll.tail == n2
+    assert ll.head is n2
+    assert ll.tail is n2
     assert n2.next is None
     assert ll.len() == 1
     assert n1.next is None
     assert n1.prev is None
     assert n2.next is None
     assert n2.prev is None
+
+
+def test_delete_from_head2():
+    ll = LinkedList2()
+    n1 = Node(v=1)
+    n2 = Node(v=2)
+    n3 = Node(v=3)
+    ll.add_in_tail(n1)
+    ll.add_in_tail(n2)
+    ll.add_in_tail(n3)
+    ll.delete(val=1, all=False)
+    assert ll.len() == 2
+    assert ll.head is n2
+    assert ll.tail is n3
+    assert n1.next is None
+    assert n1.prev is None
+    assert n2.prev is None
+    assert n2.next is n3
+    assert n3.prev is n2
+    assert n3.next is None
 
 
 def test_delete_from_tail():
@@ -170,8 +190,8 @@ def test_delete_from_tail():
     ll.add_in_tail(n1)
     ll.add_in_tail(n2)
     ll.delete(val=2, all=False)
-    assert ll.head == n1
-    assert ll.tail == n1
+    assert ll.head is n1
+    assert ll.tail is n1
     assert n1.next is None
     assert ll.len() == 1
     assert n1.prev is None
@@ -199,10 +219,10 @@ def test_delete_from_between():
     ll.add_in_tail(n3)
     ll.delete(2, all=False)
     assert ll.len() == 2
-    assert ll.head == n1
-    assert ll.tail == n3
+    assert ll.head is n1
+    assert ll.tail is n3
     assert n2.next is None
-    assert n1.next == n3
+    assert n1.next is n3
 
 
 def test_delete_all_head_tail():
