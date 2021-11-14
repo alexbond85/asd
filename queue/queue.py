@@ -6,7 +6,6 @@ class Queue:
         self.arr.append(item)
 
     def dequeue(self):
-        # выдача из головы
         if self.size() == 0:
             return 0
         return self.arr.pop(0)
