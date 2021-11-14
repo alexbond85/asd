@@ -103,15 +103,18 @@ def test_resize_after_delete():
         da.append(i)
     assert da.capacity == 32
     assert da.count == 17
-    da.delete(16)
+    da.delete(1)
     assert da.capacity == 32
-    da.delete(15)
+    da.delete(2)
     assert da.capacity == 21
-    da.delete(14)
-    da.delete(13)
-    da.delete(12)
-    da.delete(11)
-    da.delete(10)
+    da.delete(3)
+    assert da.capacity == 21
+    da.delete(4)
+    assert da.capacity == 21
+    da.delete(5)
+    assert da.capacity == 21
+    da.delete(6)
+    assert da.capacity == 21
+    da.delete(7)
     assert da.count == 10
     assert da.capacity == 16
-
