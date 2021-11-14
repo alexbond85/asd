@@ -14,6 +14,5 @@ class Queue:
         return len(self.arr)
 
     def _rotate(self, n):
-        #
         l = self.arr[n:] + self.arr[:n]
         self.arr = l
