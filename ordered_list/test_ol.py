@@ -243,3 +243,30 @@ def test_delete_from_between():
     assert ll.head.value == 3
     assert ll.tail.value == 1
 
+
+def find_optimized():
+    for flag in [True, False]:
+        ll = OrderedList(asc=flag)
+        ll.add(1)
+        assert ll.find(0) is None
+        ll = OrderedList(asc=flag)
+        ll.add(1)
+        assert ll.find(1).value == 1
+        ll = OrderedList(asc=flag)
+        ll.add(1)
+        ll.add(2)
+        assert ll.find(0) is None
+        assert ll.find(2).value == 2
+        assert ll.find(1).value == 1
+        assert ll.find(3) is None
+        ll.add(2)
+        assert ll.find(2).value == 2
+        ll.clean(asc=flag)
+        ll.add(11)
+        ll.add(21)
+        ll.add(31)
+        assert ll.find(21).value == 21
+        assert ll.find(11).value == 11
+        assert ll.find(31).value == 31
+
+

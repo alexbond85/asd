@@ -85,6 +85,10 @@ class OrderedList:
         while node is not None:
             if node.value == val:
                 return node
+            if val < node.value and self.__ascending:
+                return None
+            if val > node.value and not self.__ascending:
+                return None
             node = node.next
         return None  # здесь будет ваш код
 
