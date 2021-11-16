@@ -44,4 +44,3 @@ class PowerSet:
             if self.storage.get(x, None) is None:
                 return False
         return True
-
