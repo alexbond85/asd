@@ -5,23 +5,39 @@ class HashTable:
         self.slots = [None] * self.size
 
     def hash_fun(self, value):
-        # в качестве value поступают строки!
+        res = 0
+        for v in value:
+            res += ord(v)
+        return res % self.size
 
-        # всегда возвращает корректный индекс слота
-        return 0
+    def _next_hash(self, initial_slot):
+        return (initial_slot + self.step) % self.size
 
     def seek_slot(self, value):
-        # находит индекс пустого слота для значения, или None
+        initial_slot = self.hash_fun(value)
+        counter = 1
+        while counter <= self.size:
+            if self.slots[initial_slot] is None:
+                return initial_slot
+            if self.slots[initial_slot] == value:
+                return initial_slot
+            else:
+                counter += 1
+                initial_slot = self._next_hash(initial_slot)
         return None
 
     def put(self, value):
-        # записываем значение по хэш-функции
-
-        # возвращается индекс слота или None,
-        # если из-за коллизий элемент не удаётся
-        # разместить
-        return None
+        slot_number = self.seek_slot(value)
+        if slot_number is None:
+            return None
+        else:
+            self.slots[slot_number] = value
+            return slot_number
 
     def find(self, value):
-        # находит индекс слота со значением, или None
+        slot = self.seek_slot(value)
+        if slot is None:
+            return
+        if self.slots[slot] is not None:
+            return slot
         return None
