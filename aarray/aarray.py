@@ -5,13 +5,36 @@ class NativeDictionary:
         self.values = [None] * self.size
 
     def hash_fun(self, key):
+        return self.seek_slot(key)
+
+    def _init_slot(self, key):
         res = 0
         for v in key:
             res += ord(v)
         return res % self.size
 
+    def _next_hash(self, initial_slot):
+        return (initial_slot + 1) % self.size
+
+    def seek_slot(self, key):
+        initial_slot = self._init_slot(key)
+        counter = 1
+        while counter <= self.size:
+            if self.slots[initial_slot] is None:
+                return initial_slot
+            if self.slots[initial_slot] == key:
+                return initial_slot
+            else:
+                counter += 1
+                initial_slot = self._next_hash(initial_slot)
+        return None
+
     def is_key(self, key):
-        return self.slots[self.hash_fun(key)] is not None
+        slot = self.seek_slot(key)
+        if slot is None:
+            return False
+        else:
+            return self.slots[slot] is not None
 
     def put(self, key, value):
         slot = self.hash_fun(key)
