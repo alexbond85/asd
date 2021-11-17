@@ -1,22 +1,13 @@
 from c import NativeCache
 # proof by picture
-n = NativeCache(5)
 
-n.put("a", 1)
-print(n.values)
-n.put("b", 2)
-print(n.values)
-n.put("c", 3)
-print(n.values)
-n.put("d", 4)
-print(n.values)
-n.put("e", 566)
-print(n.values)
-n.get("a")
-n.get("b")
-n.get("c")
-n.get("d")
-n.get("e")
-n.get("e")
-n.put("f", 6)
-print(n.values)
+
+def test_remove_least_used():
+    n = NativeCache(3)
+    n.put("a", 1)
+    n.put("b", 2)
+    n.put("c", 3)
+    n.get("b")
+    n.get("c")
+    n.put("d", 4)
+    assert not n.is_key("a")
