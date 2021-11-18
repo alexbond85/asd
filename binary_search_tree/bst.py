@@ -154,19 +154,15 @@ class BST:
             self.Root = right_child
         min_max_node = self.FinMinMax(FromNode=right_child, FindMax=False)
         is_mnn_leaf = min_max_node.LeftChild is None and min_max_node.RightChild is None
+        min_max_node.LeftChild = left_child
         if is_mnn_leaf:
-            min_max_node.LeftChild = left_child
             left_child.Parent = min_max_node
-            if is_node_a_head:
-                self.Root = right_child
-            else:
-                p = node.Parent
-                p.
-            return True
         else:
-            assert min_max_node.LeftChild is None
-            # mmn_right_child = min_max_node.RightChild
-            min_max_node.LeftChild = left_child
+            mnd_right: BSTNode = min_max_node.RightChild
+            mnd_right.LeftChild = min_max_node
+            min_max_node.Parent = mnd_right
+            self._attach_to_parent(node.Parent, node, new_node=mnd_right)
+        return True
 
     def Count(self) -> int:
         if self.Root is None:
