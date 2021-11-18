@@ -201,6 +201,8 @@ def test_move():
     assert ch1.Children == [ch3]
     st.MoveNode(ch3, ch2)
     assert ch2.Children == [ch1, ch3]
+    assert ch1.Parent == ch2
+    assert ch3.Parent == ch2
 
 
 
