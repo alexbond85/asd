@@ -90,6 +90,10 @@ class BST:
                     current_node = current_node.LeftChild
 
     def _attach_to_parent(self, parent_node: BSTNode, to_delete_node: BSTNode, new_node: BSTNode):
+        if parent_node is None:
+            self.Root = new_node
+            self.Root.Parent = None
+            return
         if parent_node.LeftChild is to_delete_node:
             parent_node.LeftChild = new_node
             if new_node is not None:
@@ -119,6 +123,7 @@ class BST:
         if node.LeftChild is None:
             if node is self.Root:
                 self.Root = node.RightChild
+                self.Root.Parent = None
                 return True
             else:
                 self._attach_to_parent(node.Parent, to_delete_node=node, new_node=node.RightChild)
@@ -129,6 +134,7 @@ class BST:
         if node.RightChild is None:
             if node is self.Root:
                 self.Root = node.LeftChild
+                self.Root.Parent = None
                 return True
             else:
                 self._attach_to_parent(node.Parent, to_delete_node=node, new_node=node.LeftChild)
@@ -150,18 +156,25 @@ class BST:
         is_node_a_head = self.Root == node
         left_child: BSTNode = node.LeftChild
         right_child: BSTNode = node.RightChild
-        if is_node_a_head:
-            self.Root = right_child
         min_max_node = self.FinMinMax(FromNode=right_child, FindMax=False)
         is_mnn_leaf = min_max_node.LeftChild is None and min_max_node.RightChild is None
         min_max_node.LeftChild = left_child
+        left_child.Parent = min_max_node
         if is_mnn_leaf:
-            left_child.Parent = min_max_node
+            if is_node_a_head:
+                self.Root = right_child
+                self.Root.Parent = None
+            return True
         else:
             mnd_right: BSTNode = min_max_node.RightChild
             mnd_right.LeftChild = min_max_node
             min_max_node.Parent = mnd_right
-            self._attach_to_parent(node.Parent, node, new_node=mnd_right)
+            min_max_node.RightChild = None
+            if is_node_a_head:
+                self.Root = mnd_right
+                self.Root.Parent = None
+            else:
+                self._attach_to_parent(node.Parent, node, new_node=mnd_right)
         return True
 
     def Count(self) -> int:

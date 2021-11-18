@@ -39,5 +39,151 @@ def test_add_key_value():
     assert bst.FinMinMax(bst.Root.RightChild, FindMax=True).NodeKey == 13
 
 
+def test1():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    assert not bst.DeleteNodeByKey(9)
+    assert bst.DeleteNodeByKey(10)
+    assert bst.Root is None
 
 
+def test2():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(9, "b")
+    assert bst.DeleteNodeByKey(10)
+    assert bst.Count() == 1
+    assert bst.Root.LeftChild is None
+    assert bst.Root.RightChild is None
+    assert bst.Root.NodeKey == 9
+
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(9, "b")
+    assert bst.DeleteNodeByKey(9)
+    assert bst.Count() == 1
+    assert bst.Root.LeftChild is None
+    assert bst.Root.RightChild is None
+    assert bst.Root.NodeKey == 10
+
+
+def test3():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(11, "b")
+    assert bst.DeleteNodeByKey(10)
+    assert bst.Count() == 1
+    assert bst.Root.LeftChild is None
+    assert bst.Root.RightChild is None
+    assert bst.Root.NodeKey == 11
+
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(11, "b")
+    assert bst.DeleteNodeByKey(11)
+    assert bst.Count() == 1
+    assert bst.Root.LeftChild is None
+    assert bst.Root.RightChild is None
+    assert bst.Root.NodeKey == 10
+
+
+def test4():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(9, "o")
+    bst.AddKeyValue(11, "b")
+
+    assert bst.DeleteNodeByKey(10)
+    assert bst.Count() == 2
+    assert bst.Root.NodeKey == 11
+    assert bst.Root.LeftChild.NodeKey == 9
+    assert bst.Root.RightChild is None
+
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(9, "o")
+    bst.AddKeyValue(11, "b")
+
+    assert bst.DeleteNodeByKey(9)
+    assert bst.Count() == 2
+    assert bst.Root.NodeKey == 10
+    assert bst.Root.LeftChild is None
+    assert bst.Root.RightChild.NodeKey == 11
+
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(9, "o")
+    bst.AddKeyValue(11, "b")
+
+    assert bst.DeleteNodeByKey(11)
+    assert bst.Count() == 2
+    assert bst.Root.NodeKey == 10
+    assert bst.Root.LeftChild.NodeKey == 9
+    assert bst.Root.RightChild is None
+
+
+def test5():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(5, "o")
+    bst.AddKeyValue(15, "b")
+    bst.AddKeyValue(3, "b")
+
+    bst.DeleteNodeByKey(15)
+    assert bst.Count() == 3
+    assert bst.Root.NodeKey == 10
+    assert bst.Root.RightChild is None
+    assert bst.Root.LeftChild.NodeKey == 5
+    assert bst.Root.LeftChild.LeftChild.NodeKey == 3
+
+
+def test51():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(5, "o")
+    bst.AddKeyValue(15, "b")
+    bst.AddKeyValue(6, "b")
+
+    bst.DeleteNodeByKey(6)
+    assert bst.Count() == 3
+
+
+def test61():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(5, "o")
+    bst.AddKeyValue(15, "b")
+    bst.AddKeyValue(2, "b")
+    bst.AddKeyValue(6, "b")
+    bst.AddKeyValue(12, "b")
+
+    bst.DeleteNodeByKey(10)
+    assert bst.Count() == 5
+
+
+def test71():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(5, "o")
+    bst.AddKeyValue(15, "b")
+    bst.AddKeyValue(2, "b")
+    bst.AddKeyValue(6, "b")
+    bst.AddKeyValue(16, "b")
+
+    bst.DeleteNodeByKey(10)
+    assert bst.Count() == 5
+
+
+def test81():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(5, "o")
+    bst.AddKeyValue(15, "b")
+    bst.AddKeyValue(3, "b")
+    bst.AddKeyValue(7, "b")
+    bst.AddKeyValue(8, "b")
+    bst.AddKeyValue(2, "b")
+    bst.AddKeyValue(4, "b")
+
+    bst.DeleteNodeByKey(5)
+    assert bst.Count() == 7
