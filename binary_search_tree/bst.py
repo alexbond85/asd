@@ -89,6 +89,20 @@ class BST:
                 else:
                     current_node = current_node.LeftChild
 
+    def _attach_to_parent(self, parent_node: BSTNode, to_delete_node: BSTNode, new_node: BSTNode):
+        if parent_node.LeftChild is to_delete_node:
+            parent_node.LeftChild = new_node
+            if new_node is not None:
+                new_node.Parent = parent_node
+        if parent_node.RightChild is to_delete_node:
+            parent_node.RightChild = new_node
+            if new_node is not None:
+                new_node.Parent = parent_node
+        to_delete_node.Parent = None
+        to_delete_node.LeftChild = None
+        to_delete_node.RightChild = None
+
+
     def _remove_if_leaf(self, node: BSTNode) -> bool:
         is_node_a_leaf = node.LeftChild is None and node.RightChild is None
         if is_node_a_leaf:
@@ -96,11 +110,7 @@ class BST:
             if is_root_node:
                 self.Root = None
                 return True
-            parent_node: BSTNode = node.Parent
-            if parent_node.LeftChild is node:
-                parent_node.LeftChild = None
-            if parent_node.RightChild is node:
-                parent_node.RightChild = None
+            self._attach_to_parent(node.Parent, to_delete_node=node, new_node=None)
             return True
         else:
             return False
@@ -111,13 +121,7 @@ class BST:
                 self.Root = node.RightChild
                 return True
             else:
-                p: BSTNode = node.Parent
-                c: BSTNode = node.RightChild
-                c.Parent = p
-                if node is p.LeftChild:
-                    p.LeftChild = c
-                else:
-                    p.RightChild = c
+                self._attach_to_parent(node.Parent, to_delete_node=node, new_node=node.RightChild)
             return True
         return False
 
@@ -127,13 +131,7 @@ class BST:
                 self.Root = node.LeftChild
                 return True
             else:
-                p: BSTNode = node.Parent
-                c: BSTNode = node.LeftChild
-                c.Parent = p
-                if node is p.LeftChild:
-                    p.LeftChild = c
-                else:
-                    p.RightChild = c
+                self._attach_to_parent(node.Parent, to_delete_node=node, new_node=node.LeftChild)
                 return True
         return False
 
@@ -159,11 +157,16 @@ class BST:
         if is_mnn_leaf:
             min_max_node.LeftChild = left_child
             left_child.Parent = min_max_node
+            if is_node_a_head:
+                self.Root = right_child
+            else:
+                p = node.Parent
+                p.
             return True
         else:
             assert min_max_node.LeftChild is None
-            #
-            mmn_right_child = min_max_node.RightChild
+            # mmn_right_child = min_max_node.RightChild
+            min_max_node.LeftChild = left_child
 
     def Count(self) -> int:
         if self.Root is None:
