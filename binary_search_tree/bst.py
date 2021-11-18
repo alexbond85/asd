@@ -119,27 +119,22 @@ class BST:
         else:
             return False
 
-    def _remove_if_no_left_child(self, node: BSTNode) -> bool:
-        if node.LeftChild is None:
+    def _remove_if_n1_is_none(self, node, n1, n2):
+        if n1 is None:
             if node is self.Root:
-                self.Root = node.RightChild
+                self.Root = n2
                 self.Root.Parent = None
                 return True
             else:
-                self._attach_to_parent(node.Parent, to_delete_node=node, new_node=node.RightChild)
+                self._attach_to_parent(node.Parent, to_delete_node=node, new_node=n2)
             return True
         return False
 
+    def _remove_if_no_left_child(self, node: BSTNode) -> bool:
+        return self._remove_if_n1_is_none(node, node.LeftChild, node.RightChild)
+
     def _remove_if_no_right_child(self, node: BSTNode) -> bool:
-        if node.RightChild is None:
-            if node is self.Root:
-                self.Root = node.LeftChild
-                self.Root.Parent = None
-                return True
-            else:
-                self._attach_to_parent(node.Parent, to_delete_node=node, new_node=node.LeftChild)
-                return True
-        return False
+        return self._remove_if_n1_is_none(node, node.RightChild, node.LeftChild)
 
     def DeleteNodeByKey(self, key) -> bool:
         f = self.FindNodeByKey(key)
