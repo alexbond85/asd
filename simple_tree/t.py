@@ -62,6 +62,7 @@ class SimpleTree:
             p: SimpleTreeNode = OriginalNode.Parent
             p.Children = [c for c in p.Children if c!= OriginalNode]
         NewParent.Children.append(OriginalNode)
+        OriginalNode.Parent = NewParent
 
     def Count(self):
         return len(self.GetAllNodes())
