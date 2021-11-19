@@ -1,4 +1,4 @@
-from bst import BSTNode, BSTFind, BST
+from bst import BST, BSTFind, BSTNode
 
 
 def test_add_key_value():
@@ -185,5 +185,81 @@ def test81():
     bst.AddKeyValue(2, "b")
     bst.AddKeyValue(4, "b")
 
-    bst.DeleteNodeByKey(5)
-    assert bst.Count() == 7
+    bst.DeleteNodeByKey(154)
+    assert bst.Count() == 8
+
+
+def test_remove_if_leaf():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(15, "a")
+    bst.DeleteNodeByKey(15)
+    assert bst.Count() == 1
+
+
+def test_remove_if_no_left_child():
+    bst = BST(None)
+    bst.AddKeyValue(15, "a")
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(20, "a")
+    bst.AddKeyValue(8, "a")
+    bst.DeleteNodeByKey(10)
+    assert bst.Count() == 3
+
+
+def test_node_head_leaf():
+    bst = BST(None)
+    bst.AddKeyValue(15, "a")
+    bst.DeleteNodeByKey(15)
+    assert bst.Count() == 0
+
+
+def test_node_head_has_only_right():
+    bst = BST(None)
+    bst.AddKeyValue(15, "a")
+    bst.AddKeyValue(20, "a")
+    bst.DeleteNodeByKey(15)
+    assert bst.Count() == 1
+
+
+def test_node_head_has_only_left():
+    bst = BST(None)
+    bst.AddKeyValue(15, "a")
+    bst.AddKeyValue(10, "a")
+    bst.DeleteNodeByKey(15)
+    assert bst.Count() == 1
+
+
+def test_node_head_mmd_is_leaf():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(8, "a")
+    bst.AddKeyValue(11, "a")
+    bst.DeleteNodeByKey(10)
+    assert bst.Count() == 2
+
+
+def test_node_head_mmd_is_not_leaf():
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(8, "a")
+    bst.AddKeyValue(11, "a")
+    bst.AddKeyValue(12, "a")
+    bst.DeleteNodeByKey(10)
+    assert bst.Count() == 3
+    assert bst.Root.NodeKey == 12
+    assert bst.Root.LeftChild.NodeKey == 11
+    assert bst.Root.LeftChild.LeftChild.NodeKey == 8
+
+
+def test_delete_delete():
+        bst = BST(None)
+        bst.AddKeyValue(10, "a")
+        bst.AddKeyValue(5, "a")
+        bst.AddKeyValue(20, "a")
+        bst.AddKeyValue(15, "a")
+        bst.AddKeyValue(25, "a")
+        bst.AddKeyValue(14, "a")
+        bst.AddKeyValue(16, "a")
+        bst.DeleteNodeByKey(15)
+        assert bst.Count() == 6

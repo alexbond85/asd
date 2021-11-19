@@ -106,7 +106,6 @@ class BST:
         to_delete_node.LeftChild = None
         to_delete_node.RightChild = None
 
-
     def _remove_if_leaf(self, node: BSTNode) -> bool:
         is_node_a_leaf = node.LeftChild is None and node.RightChild is None
         if is_node_a_leaf:
@@ -136,12 +135,15 @@ class BST:
     def _remove_if_no_right_child(self, node: BSTNode) -> bool:
         return self._remove_if_n1_is_none(node, node.RightChild, node.LeftChild)
 
-    def DeleteNodeByKey(self, key) -> bool:
+    def _is_key_not_found(self, key) -> bool:
         f = self.FindNodeByKey(key)
         is_key_not_found = not f.NodeHasKey
-        if is_key_not_found:
+        return is_key_not_found
+
+    def DeleteNodeByKey(self, key) -> bool:
+        if self._is_key_not_found(key):
             return False
-        node: BSTNode = f.Node
+        node: BSTNode = self.FindNodeByKey(key).Node
         if self._remove_if_leaf(node):
             return True
         if self._remove_if_no_left_child(node):
@@ -159,6 +161,7 @@ class BST:
             if is_node_a_head:
                 self.Root = right_child
                 self.Root.Parent = None
+            self._attach_to_parent(node.Parent, node, new_node=right_child)
             return True
         else:
             mnd_right: BSTNode = min_max_node.RightChild
