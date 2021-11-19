@@ -140,24 +140,15 @@ class BST:
         is_key_not_found = not f.NodeHasKey
         return is_key_not_found
 
-    def _tmp_assert_node_deleted(self, node: BSTNode):
-        if node.Parent is None:
-            return
-        assert node.Parent.LeftChild != node
-        assert node.Parent.RightChild != node
-
     def DeleteNodeByKey(self, key) -> bool:
         if self._is_key_not_found(key):
             return False
         node: BSTNode = self.FindNodeByKey(key).Node
         if self._remove_if_leaf(node):
-            self._tmp_assert_node_deleted(node)
             return True
         if self._remove_if_no_left_child(node):
-            self._tmp_assert_node_deleted(node)
             return True
         if self._remove_if_no_right_child(node):
-            self._tmp_assert_node_deleted(node)
             return True
 
         left_child: BSTNode = node.LeftChild
@@ -217,8 +208,6 @@ class BST:
                     min_max_node.Parent.LeftChild = to_move
                 min_max_node.RightChild = right_child
                 right_child.Parent = min_max_node
-                assert to_move.RightChild is None
-                assert to_move.LeftChild is None
                 if not is_node_a_head:
                     min_max_node.Parent = node.Parent
                     if node.Parent.LeftChild is node:
