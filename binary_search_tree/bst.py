@@ -20,7 +20,7 @@ class BSTFind:
 class BST:
 
     def __init__(self, node):
-        self.Root = node  # корень дерева, или None
+        self.Root = node
 
     def _key_exists(self, node) -> BSTFind:
         res = BSTFind()
