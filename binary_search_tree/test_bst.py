@@ -247,19 +247,31 @@ def test_node_head_mmd_is_not_leaf():
     bst.AddKeyValue(12, "a")
     bst.DeleteNodeByKey(10)
     assert bst.Count() == 3
-    assert bst.Root.NodeKey == 12
-    assert bst.Root.LeftChild.NodeKey == 11
-    assert bst.Root.LeftChild.LeftChild.NodeKey == 8
+    assert bst.Root.NodeKey == 11
+    assert bst.Root.LeftChild.NodeKey == 8
+    assert bst.Root.RightChild.NodeKey == 12
 
 
 def test_delete_delete():
-        bst = BST(None)
-        bst.AddKeyValue(10, "a")
-        bst.AddKeyValue(5, "a")
-        bst.AddKeyValue(20, "a")
-        bst.AddKeyValue(15, "a")
-        bst.AddKeyValue(25, "a")
-        bst.AddKeyValue(14, "a")
-        bst.AddKeyValue(16, "a")
-        bst.DeleteNodeByKey(15)
-        assert bst.Count() == 6
+    bst = BST(None)
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(5, "a")
+    bst.AddKeyValue(20, "a")
+    bst.AddKeyValue(15, "a")
+    bst.AddKeyValue(25, "a")
+    bst.AddKeyValue(14, "a")
+    bst.AddKeyValue(16, "a")
+    bst.DeleteNodeByKey(15)
+    assert bst.Count() == 6
+    a = bst.FindNodeByKey(15)
+    print()
+
+
+def test_delete_4_nodes():
+    bst = BST(None)
+    bst.AddKeyValue(0, "a")
+    bst.AddKeyValue(10, "a")
+    bst.AddKeyValue(5, "a")
+    bst.AddKeyValue(15, "a")
+    bst.DeleteNodeByKey(10)
+    print()

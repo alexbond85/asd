@@ -140,39 +140,97 @@ class BST:
         is_key_not_found = not f.NodeHasKey
         return is_key_not_found
 
+    def _tmp_assert_node_deleted(self, node: BSTNode):
+        if node.Parent is None:
+            return
+        assert node.Parent.LeftChild != node
+        assert node.Parent.RightChild != node
+
     def DeleteNodeByKey(self, key) -> bool:
         if self._is_key_not_found(key):
             return False
         node: BSTNode = self.FindNodeByKey(key).Node
         if self._remove_if_leaf(node):
+            self._tmp_assert_node_deleted(node)
             return True
         if self._remove_if_no_left_child(node):
+            self._tmp_assert_node_deleted(node)
             return True
         if self._remove_if_no_right_child(node):
+            self._tmp_assert_node_deleted(node)
             return True
-        is_node_a_head = self.Root == node
+
         left_child: BSTNode = node.LeftChild
         right_child: BSTNode = node.RightChild
         min_max_node = self.FinMinMax(FromNode=right_child, FindMax=False)
-        is_mnn_leaf = min_max_node.LeftChild is None and min_max_node.RightChild is None
-        min_max_node.LeftChild = left_child
-        left_child.Parent = min_max_node
-        if is_mnn_leaf:
-            if is_node_a_head:
-                self.Root = right_child
-                self.Root.Parent = None
-            self._attach_to_parent(node.Parent, node, new_node=right_child)
-            return True
-        else:
-            mnd_right: BSTNode = min_max_node.RightChild
-            mnd_right.LeftChild = min_max_node
-            min_max_node.Parent = mnd_right
-            min_max_node.RightChild = None
-            if is_node_a_head:
-                self.Root = mnd_right
-                self.Root.Parent = None
+        # if min_max_node is None:
+        #     min_max_node = right_child
+        is_node_a_head = self.Root == node
+        is_mmn_leaf = min_max_node.LeftChild is None and min_max_node.RightChild is None
+        is_mmn_right_child = min_max_node is right_child
+
+        if is_mmn_leaf:
+            min_max_node.LeftChild = left_child
+            left_child.Parent = min_max_node
+            if not is_mmn_right_child:
+                min_max_node.Parent.LeftChild = None
+                min_max_node.RightChild = right_child
+                right_child.Parent = min_max_node
+                if not is_node_a_head:
+                    min_max_node.Parent = node.Parent
+                    if node is node.Parent.LeftChild:
+                        node.Parent.LeftChild = min_max_node
+                    if node is node.Parent.RightChild:
+                        node.Parent.RightChild = min_max_node
+                else:
+                    self.Root = min_max_node
+                    self.Root.Parent = None
             else:
-                self._attach_to_parent(node.Parent, node, new_node=mnd_right)
+                if not is_node_a_head:
+                    right_child.Parent = node.Parent
+                    if node is node.Parent.LeftChild:
+                        node.Parent.LeftChild = right_child
+                    if node is node.Parent.RightChild:
+                        node.Parent.RightChild = right_child
+                else:
+                    self.Root = right_child
+                    self.Root.Parent = None
+        else:
+            min_max_node.LeftChild = left_child
+            left_child.Parent = min_max_node
+            if is_mmn_right_child:
+                if not is_node_a_head:
+                    min_max_node.Parent = node.Parent
+                    if node.Parent.LeftChild is node:
+                        node.Parent.LeftChild = min_max_node
+                    if node.Parent.RightChild is node:
+                        node.Parent.LeftChild = min_max_node
+                else:
+                    self.Root = min_max_node
+                    self.Root.Parent = None
+            else:
+                min_max_node.RightChild.Parent = min_max_node.Parent
+                to_move = min_max_node.RightChild
+                if min_max_node.Parent.RightChild == min_max_node:
+                    min_max_node.Parent.RightChild = to_move
+                if min_max_node.Parent.LeftChild == min_max_node:
+                    min_max_node.Parent.LeftChild = to_move
+                min_max_node.RightChild = right_child
+                right_child.Parent = min_max_node
+                assert to_move.RightChild is None
+                assert to_move.LeftChild is None
+                if not is_node_a_head:
+                    min_max_node.Parent = node.Parent
+                    if node.Parent.LeftChild is node:
+                        node.Parent.LeftChild = min_max_node
+                    if node.Parent.RightChild is node:
+                        node.Parent.LeftChild = min_max_node
+                else:
+                    self.Root = min_max_node
+                    self.Root.Parent = None
+        node.Parent = None
+        node.RightChild = None
+        node.LeftChild = None
         return True
 
     def Count(self) -> int:
