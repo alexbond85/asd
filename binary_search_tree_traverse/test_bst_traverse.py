@@ -62,3 +62,18 @@ def test_five_nodes():
     assert _tree_keys(bst.DeepAllNodes(0)) == (5, 6, 10, 12, 15)
     assert _tree_keys(bst.DeepAllNodes(1)) == (6, 5, 12, 15, 10)
     assert _tree_keys(bst.DeepAllNodes(2)) == (10, 5, 6, 15, 12)
+
+
+def test_seven_nodes():
+    bst = BST(None)
+    bst.AddKeyValue(10, 10)
+    bst.AddKeyValue(5, 5)
+    bst.AddKeyValue(15, 15)
+    bst.AddKeyValue(6, 6)
+    bst.AddKeyValue(12, 12)
+    bst.AddKeyValue(4, 4)
+    bst.AddKeyValue(16, 16)
+    assert _tree_keys(bst.WideAllNodes()) == (10, 5, 15, 4, 6, 12, 16)
+    assert _tree_keys(bst.DeepAllNodes(0)) == (4, 5, 6, 10, 12, 15, 16)
+    assert _tree_keys(bst.DeepAllNodes(1)) == (4, 6, 5, 12, 16, 15, 10)
+    assert _tree_keys(bst.DeepAllNodes(2)) == (10, 5, 4, 6, 15, 12, 16)
