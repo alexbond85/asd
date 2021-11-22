@@ -26,8 +26,3 @@ def GenerateBBSTArray(a):
                 next_level.append(right)
         queue = next_level
     return output
-
-
-
-input = [1, 2, 3]
-print(GenerateBBSTArray([1]))
