@@ -79,3 +79,10 @@ def test_generate_more_than_three_nodes():
     assert not bbst.IsBalanced(bbst.Root)
     assert bbst.IsBalanced(bbst.Root.LeftChild)
     assert bbst.IsBalanced(bbst.Root.LeftChild.LeftChild)
+
+
+def test_max_depth():
+    bbst = BalancedBST()
+    arr = list(range(0, 2**8))
+    bbst.GenerateTree(arr)
+    assert bbst._max_depth(bbst.Root) == 9
