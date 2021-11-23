@@ -55,9 +55,43 @@ class BalancedBST:
         right = arr[index + 1:]
         return left, right
 
+    def _children(self, n: BSTNode):
+        res = []
+        if n.LeftChild is not None:
+            res.append(n.LeftChild)
+        if n.RightChild is not None:
+            res.append(n.RightChild)
+        return res
 
-    # создаём дерево с нуля из неотсортированного массива a
-    # ...
+    def _all_nodes(self, node: BSTNode):
+        if node is None:
+            return []
+        else:
+            nodes = [node]
+            nodes_children = self._children(node)
+            while len(nodes_children) > 0:
+                nodes += nodes_children
+                all_children = []
+                for n in nodes_children:
+                    all_children += self._children(n)
+                nodes_children = all_children
+            return nodes
 
-    def IsBalanced(self, root_node):
-        return False  # сбалансировано ли дерево с корнем root_node
+    def _max_depth(self, start_from: BSTNode):
+        if start_from is None:
+            return 0
+        all_nodes = self._all_nodes(start_from)
+        levels = [n.Level for n in all_nodes]
+        if len(levels) > 0:
+            return max(levels) + 1 - start_from.Level
+        return 1
+
+    def IsBalanced(self, root_node: BSTNode):
+        if root_node is None:
+            return True
+        left_max_depth = self._max_depth(root_node.LeftChild)
+        right_max_depth = self._max_depth(root_node.RightChild)
+        if abs(left_max_depth - right_max_depth) <= 1:
+            return True
+        else:
+            return False
