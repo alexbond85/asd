@@ -5,6 +5,7 @@ class Heap:
         self._next_index_to_fill = 0
 
     def MakeHeap(self, a, depth) -> None:
+        self._next_index_to_fill = 0
         self.HeapArray = [None]*(2**(depth + 1) - 1)
         for x in a:
             self.Add(x)
@@ -13,6 +14,16 @@ class Heap:
         if len(self.HeapArray) == 0:
             return -1
         res = self.HeapArray[0]
+        if res is None:
+            return -1
+        candidate_index = self._next_index_to_fill - 1
+        if candidate_index == 0:
+            self.HeapArray[0] = None
+            self._next_index_to_fill = 0
+            return res
+        self._next_index_to_fill -= 1
+        self.HeapArray[0] = self.HeapArray[self._next_index_to_fill]
+        self.HeapArray[self._next_index_to_fill] = None
         # вернуть значение корня и перестроить кучу
         return res
 
