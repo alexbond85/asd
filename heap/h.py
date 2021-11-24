@@ -44,5 +44,3 @@ class Heap:
 
     def _right_child_index(self, index: int) -> int:
         return int(2*index + 2)
-
-print(int((0-1)/2))
