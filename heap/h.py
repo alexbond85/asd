@@ -10,22 +10,51 @@ class Heap:
         for x in a:
             self.Add(x)
 
+    def _max(self, left_child, right_child):
+        if left_child is None:
+            return right_child
+        if right_child is None:
+            return left_child
+        if left_child > right_child:
+            return left_child
+        return right_child
+
     def GetMax(self):
         if len(self.HeapArray) == 0:
             return -1
-        res = self.HeapArray[0]
-        if res is None:
+        root = self.HeapArray[0]
+        if root is None:
             return -1
-        candidate_index = self._next_index_to_fill - 1
-        if candidate_index == 0:
+        if self._next_index_to_fill == 1:
             self.HeapArray[0] = None
             self._next_index_to_fill = 0
-            return res
+            return root
+        # move to root
         self._next_index_to_fill -= 1
         self.HeapArray[0] = self.HeapArray[self._next_index_to_fill]
         self.HeapArray[self._next_index_to_fill] = None
-        # вернуть значение корня и перестроить кучу
-        return res
+        #
+        current_index = 0
+
+        while True:
+            current_key = self.HeapArray[current_index]
+            left_child_index = self._left_child_index(current_index)
+            right_child_index = self._right_child_index(current_index)
+            left_child = self.HeapArray[left_child_index] if left_child_index < len(self.HeapArray) else None
+            right_child = self.HeapArray[right_child_index] if right_child_index < len(self.HeapArray) else None
+            is_max_right = self._max(right_child, current_key) > current_key
+            is_max_left = self._max(left_child, current_key) > current_key
+            if is_max_left or is_max_right:
+                if self._max(right_child, left_child) == right_child:
+                    self.HeapArray[current_index] = right_child
+                    self.HeapArray[self._right_child_index(current_index)] = current_key
+                    current_index = self._right_child_index(current_index)
+                if self._max(right_child, left_child) == left_child:
+                    self.HeapArray[current_index] = left_child
+                    self.HeapArray[self._left_child_index(current_index)] = current_key
+                    current_index = self._left_child_index(current_index)
+            else:
+                return root
 
     def Add(self, key) -> bool:
         index = self._next_index_to_fill

@@ -3,7 +3,7 @@ from h import Heap
 
 def test_make_heap_empty():
     h = Heap()
-    h.MakeHeap([], 2)
+    h.MakeHeap([], 1)
     assert h.HeapArray == [None, None, None]
 
 
@@ -85,11 +85,68 @@ def test_get_max_two_elements():
     assert h.HeapArray == [None, None, None]
     assert h.GetMax() == -1
     assert h.HeapArray == [None, None, None]
+    h = Heap()
+    h.MakeHeap([2, 1], 1)
+    assert h.HeapArray == [2, 1, None]
+    assert h.GetMax() == 2
+    assert h.HeapArray == [1, None, None]
+    assert h.GetMax() == 1
+    assert h.HeapArray == [None, None, None]
+    assert h.GetMax() == -1
+    assert h.HeapArray == [None, None, None]
 
 
 def test_get_max_three_elements():
-    pass
+    h = Heap()
+    h.MakeHeap([1, 2, 3], 1)
+    assert h.HeapArray == [3, 1, 2]
+    assert h.GetMax() == 3
+    assert h.HeapArray == [2, 1, None]
+
+    h = Heap()
+    h.MakeHeap([3, 2, 1], 1)
+    assert h.HeapArray == [3, 2, 1]
+    assert h.GetMax() == 3
+    assert h.HeapArray == [2, 1, None]
 
 
 def test_more_than_three_elements():
-    pass
+    h = Heap()
+    h.MakeHeap([1, 2, 3, 4], 2)
+    assert h.HeapArray == [4, 3, 2, 1, None, None, None]
+    assert h.GetMax() == 4
+    assert h.HeapArray == [3, 1, 2, None, None, None, None]
+
+    h = Heap()
+    h.MakeHeap([1, 2, 3, 4], 2)
+    assert h.HeapArray == [4, 3, 2, 1, None, None, None]
+    assert h.GetMax() == 4
+    assert h.HeapArray == [3, 1, 2, None, None, None, None]
+
+    h = Heap()
+    h.MakeHeap([3, 2, 1, 4, 5], 2)
+    assert h.HeapArray == [5, 4, 1, 2, 3, None, None]
+    assert h.GetMax() == 5
+    assert h.HeapArray == [4, 3, 1, 2, None, None, None]
+    assert h.GetMax() == 4
+    assert h.HeapArray == [3, 2, 1, None, None, None, None]
+    assert h.GetMax() == 3
+    assert h.HeapArray == [2, 1, None, None, None, None, None]
+    assert h.GetMax() == 2
+    assert h.HeapArray == [1, None, None, None, None, None, None]
+    assert h.GetMax() == 1
+    assert h.HeapArray == [None, None, None, None, None, None, None]
+    assert h.GetMax() == -1
+    assert h.HeapArray == [None, None, None, None, None, None, None]
+
+    h = Heap()
+    h.MakeHeap([3, 2, 1, 4, 5, 6], 2)
+    assert h.HeapArray == [6, 4, 5, 2, 3, 1, None]
+    assert h.GetMax() == 6
+    assert h.HeapArray == [5, 4, 1, 2, 3, None, None]
+
+    h = Heap()
+    h.MakeHeap([3, 2, 1, 4, 5, 6, 7], 2)
+    assert h.HeapArray == [7, 4, 6, 2, 3, 1, 5]
+    assert h.GetMax() == 7
+    assert h.HeapArray == [6, 4, 5, 2, 3, 1, None]
