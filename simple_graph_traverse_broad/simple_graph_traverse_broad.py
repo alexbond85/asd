@@ -12,6 +12,7 @@ class SimpleGraph:
         self.m_adjacency = [[0] * size for _ in range(size)]
         self.vertex = [None] * size
         self._history = []
+        self._history_vertices = []
 
     def AddVertex(self, v) -> None:
         v = Vertex(val=v)
@@ -78,7 +79,23 @@ class SimpleGraph:
         else:
             return self._form_path(candidate, list_of_tuples_next, path)
 
-    def BreadthFirstSearch(self, VFrom, VTo):
+    def _form_path_vertices(self, vertex, list_of_tuples, path):
+        path.append(vertex)
+        candidate = None
+        list_of_tuples_next = []
+        for x in list_of_tuples:
+            n, l = x
+            if vertex in l:
+                candidate = n
+            else:
+                list_of_tuples_next.append((n, l))
+        if candidate is None:
+            return list(reversed(path))
+        else:
+            return self._form_path_vertices(candidate, list_of_tuples_next, path)
+
+
+    def BreadthFirstSearch2(self, VFrom, VTo):
         vertex_from = self.vertex[VFrom]
         vertex_to = self.vertex[VTo]
         if VFrom == VTo:
@@ -103,6 +120,28 @@ class SimpleGraph:
             self._history.append((v.Value, [v.Value for v in queue]))
         return []
 
+    def BreadthFirstSearch(self, VFrom, VTo):
+        self._history_vertices = []
+        vertex_from = self.vertex[VFrom]
+        vertex_to = self.vertex[VTo]
+        if VFrom == VTo:
+            return [vertex_from, vertex_to]
+        queue = [vertex_from]
+        seen = [vertex_from]
+        while len(queue) > 0:
+            v = queue.pop(0)
+            if v == vertex_to:
+                res = self._form_path_vertices(v, list(reversed(self._history_vertices)), [])
+                # self._history_vertices = []
+                return res
+            index_v = self.vertex.index(v)
+            indices_adj_vertices = [i for i, val in enumerate(self.m_adjacency[index_v]) if val == 1]
+            adj_vertices = [self.vertex[i] for i in indices_adj_vertices]
+            adj_vertices = [v for v in adj_vertices if not v in seen]
+            seen += adj_vertices
+            queue += adj_vertices
+            self._history_vertices.append((v, [v for v in queue]))
+        return []
 
 
 

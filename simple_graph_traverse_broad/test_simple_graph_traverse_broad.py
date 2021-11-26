@@ -39,10 +39,25 @@ def test_breath_first_search():
     s.AddEdge(7, 9)
     s.AddEdge(9, 8)
 
+    res = s.BreadthFirstSearch(0, 8)
+    assert [v.Value for v in res] == [0, 2, 6, 8]
+    res = s.BreadthFirstSearch(8, 0)
+    assert [v.Value for v in res] == [8, 6, 2, 0]
 
-    print()
 
-    a = s.BreadthFirstSearch(0, 8)
-    for i in s._history:
-        print(i)
-    print(a)
+
+def test_breath_first_edge_cases():
+    s = SimpleGraph(3)
+    s.AddVertex(0)
+    s.AddVertex(1)
+    s.AddVertex(2)
+    s.AddEdge(0, 1)
+
+    res = s.BreadthFirstSearch(0, 0)
+    assert [v.Value for v in res] == [0, 0]
+
+    res = s.BreadthFirstSearch(0, 1)
+    assert [v.Value for v in res] == [0, 1]
+
+    res = s.BreadthFirstSearch(0, 2)
+    assert [v.Value for v in res] == []
